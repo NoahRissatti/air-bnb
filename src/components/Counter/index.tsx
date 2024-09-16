@@ -1,12 +1,21 @@
-import { useState } from "react";
 import { Button, Box, Text, VStack, HStack } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
-const Counter = () => {
-  const [count, setCount] = useState(0);
+interface CounterProps {
+  value: number;
+  onChange: (newValue: number) => void;
+}
 
-  const increase = () => setCount(count + 1);
-  const decrease = () => setCount(count - 1);
+const Counter: React.FC<CounterProps> = ({ value, onChange }) => {
+  const increase = () => {
+    onChange(value + 1);
+  };
+
+  const decrease = () => {
+    if (value > 0) {
+      onChange(value - 1);
+    }
+  };
 
   return (
     <VStack spacing={4}>
@@ -29,7 +38,7 @@ const Counter = () => {
         </Button>
 
         <Box>
-          <Text fontSize="18px">{count}</Text>
+          <Text fontSize="18px">{value}</Text>
         </Box>
 
         <Button

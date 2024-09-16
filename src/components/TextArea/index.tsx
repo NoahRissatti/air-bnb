@@ -1,16 +1,23 @@
-import React, { useState, ChangeEvent } from 'react';
-import { Textarea, FormControl, FormLabel, FormHelperText } from '@chakra-ui/react';
+import React from "react";
+import { Textarea, FormControl, FormHelperText } from "@chakra-ui/react";
 
 interface TextAreaProps {
+  value: string;
+  onChange: (value: string) => void;
   maxLength: number;
   placeholder?: string;
 }
 
-const TextArea: React.FC<TextAreaProps> = ({ maxLength, placeholder = '' }) => {
-  const [value, setValue] = useState<string>('');
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setValue(event.target.value);
+const TextArea: React.FC<TextAreaProps> = ({
+  value,
+  onChange,
+  maxLength,
+  placeholder = "",
+}) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ): void => {
+    onChange(event.target.value);
   };
 
   return (
@@ -20,7 +27,7 @@ const TextArea: React.FC<TextAreaProps> = ({ maxLength, placeholder = '' }) => {
         onChange={handleChange}
         maxLength={maxLength}
         placeholder={placeholder}
-        fontSize={'24px'}
+        fontSize={"24px"}
       />
 
       <FormHelperText>

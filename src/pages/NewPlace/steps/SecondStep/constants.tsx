@@ -3,24 +3,29 @@ import { FaSailboat } from "react-icons/fa6";
 import { SiFarcaster } from "react-icons/si";
 
 export const cardData = [
-    {
-      title: 'Casa',
-      icon: FaHome
-    },
-    {
-      title: 'Apartamento',
-      icon: FaBuilding
-    },
-    {
-      title: 'Pousada',
-      icon: FaHotel
-    },
-    {
-        title: 'Barco',
-        icon: FaSailboat
-      },
-      {
-        title: 'Castelo',
-        icon: SiFarcaster
-      },
-  ];
+  {
+    id: 1,
+    title: 'Casa',
+    icon: FaHome
+  },
+  {
+    id: 2,
+    title: 'Apartamento',
+    icon: FaBuilding
+  },
+  {
+    id: 3,
+    title: 'Pousada',
+    icon: FaHotel
+  },
+  {
+    id: 4,
+    title: 'Barco',
+    icon: FaSailboat
+  },
+  {
+    id: 5,
+    title: 'Castelo',
+    icon: SiFarcaster
+  },
+];

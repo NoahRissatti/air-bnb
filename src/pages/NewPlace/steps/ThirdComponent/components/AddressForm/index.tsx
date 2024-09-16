@@ -1,61 +1,60 @@
-// External Libraries
-import React, { useState } from "react";
-import axios from "axios"; 
-
-// Components
-
-// Styles
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Flex } from "@chakra-ui/react";
 import { FloatingInput } from "../../../../../../components/Input";
-import { IFormAddress } from "./types";
+import { IPlace } from "../../../../../../types/IPlace";
 
 interface Props {
-  // Props
+  form: IPlace;
+  handleFormChange: (key: keyof IPlace, value: any) => void;
 }
 
-export const AddressForm: React.FC<Props> = ({
- 
-}) => {
-  const [form, setForm] = useState<IFormAddress>({
-    cep: "",
-    address: "",
-    region: "",
-    complement: "",
-    neighborhood: "",
-    uf: "",
-  });
+export const AddressForm: React.FC<Props> = ({ form, handleFormChange }) => {
+  const [cep, setCep] = useState<string>(form.address.cep || "");
+  const [localAddress, setLocalAddress] = useState(form.address);
 
-  const handleFormChange = (field: keyof IFormAddress, value: string) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      [field]: value,
+  useEffect(() => {
+    setLocalAddress(form.address);
+  }, [form.address]);
+
+  useEffect(() => {
+    // Fetch address when CEP has exactly 8 digits
+    if (cep.length === 8) {
+      const fetchAddressFromCep = async (cep: string) => {
+        try {
+          const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+          const data = response.data;
+
+          if (data && !data.erro) {
+            setLocalAddress(prev => ({
+              ...prev,
+              address: data.logradouro,
+              neighborhood: data.bairro,
+              city: data.localidade,
+              cep: data.cep,
+            }));
+          } else {
+            alert("CEP não encontrado.");
+          }
+        } catch (error) {
+          console.error("Erro ao buscar o CEP:", error);
+          alert("Erro ao buscar o CEP.");
+        }
+      };
+
+      fetchAddressFromCep(cep);
+    }
+  }, [cep]);
+
+  useEffect(() => {
+    handleFormChange("address", localAddress);
+  }, [localAddress, handleFormChange]);
+
+  const handleInputChange = (key: keyof IPlace['address'], value: string) => {
+    setLocalAddress(prev => ({
+      ...prev,
+      [key]: value,
     }));
-
-    if (field === "cep" && value.length === 8) {
-      fetchAddressFromCep(value);
-    }
-  };
-
-  const fetchAddressFromCep = async (cep: string) => {
-    try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = response.data;
-
-      if (data) {
-        setForm((prevForm) => ({
-          ...prevForm,
-          address: data.logradouro,
-          neighborhood: data.bairro,
-          region: data.localidade,
-          uf: data.uf,
-        }));
-      } else {
-        alert("CEP não encontrado.");
-      }
-    } catch (error) {
-      console.error("Erro ao buscar o CEP:", error);
-      alert("Erro ao buscar o CEP.");
-    }
   };
 
   return (
@@ -63,38 +62,38 @@ export const AddressForm: React.FC<Props> = ({
       <FloatingInput
         label="CEP"
         mb="1.5rem"
-        value={form.cep}
-        onChange={(value) => handleFormChange("cep", value)}
+        value={cep}
+        onChange={(value) => setCep(value)}
       />
 
       <FloatingInput
         label="País / Região"
-        value={form.region}
-        onChange={(value) => handleFormChange("region", value)}
+        value={localAddress.country || ""}
+        onChange={(value) => handleInputChange("country", value)}
       />
 
       <FloatingInput
         label="Endereço"
-        value={form.address}
-        onChange={(value) => handleFormChange("address", value)}
+        value={localAddress.address || ""}
+        onChange={(value) => handleInputChange("address", value)}
       />
 
       <FloatingInput
         label="Apto, suíte, unidade (se aplicável)"
-        value={form.complement}
-        onChange={(value) => handleFormChange("complement", value)}
+        value={localAddress.complement || ""}
+        onChange={(value) => handleInputChange("complement", value)}
       />
 
       <FloatingInput
         label="Bairro (se aplicável)"
-        value={form.neighborhood}
-        onChange={(value) => handleFormChange("neighborhood", value)}
+        value={localAddress.neighborhood || ""}
+        onChange={(value) => handleInputChange("neighborhood", value)}
       />
 
       <FloatingInput
         label="Cidade / Município"
-        value={form.uf}
-        onChange={(value) => handleFormChange("uf", value)}
+        value={localAddress.city || ""}
+        onChange={(value) => handleInputChange("city", value)}
       />
     </Flex>
   );

@@ -6,18 +6,16 @@ import React from "react";
 // Styles
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import TextArea from "../../../../components/TextArea";
+import { IPlace } from "../../../../types/IPlace";
 
 interface Props {
-  // Props
+  form: IPlace;
+  handleFormChange: (key: keyof IPlace, value: any) => void;
 }
 
-export const EightComponent: React.FC<Props> = (
-  {
-    /* Props */
-  }
-) => {
+export const EightComponent: React.FC<Props> = ({ form, handleFormChange }) => {
   return (
-    <Flex w={'40rem'} direction={"column"} gap={"1.5rem"}>
+    <Flex w={"40rem"} direction={"column"} gap={"1.5rem"}>
       <Flex direction={"column"} gap={"0.25rem"}>
         <Heading fontSize={"38px"} fontWeight={600}>
           Crie sua descrição
@@ -28,7 +26,12 @@ export const EightComponent: React.FC<Props> = (
         </Text>
       </Flex>
 
-      <TextArea maxLength={500} placeholder="Digite aqui..." />
+      <TextArea
+        maxLength={500}
+        placeholder="Digite aqui..."
+        value={form.description}
+        onChange={(v) => handleFormChange("description", v)}
+      />
     </Flex>
   );
 };

@@ -1,12 +1,11 @@
 // External Libraries
-import React from "react";
+import React, { useState } from "react";
 
 // Components
 
 // Styles
 import { Container } from "./styles";
 import { Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
-import { cardData } from "../SecondStep/constants";
 import { Card } from "../../../../components/Card";
 import { cardAmenity, cardFavorites, cardSecurity } from "./constants";
 
@@ -19,10 +18,21 @@ export const SixComponent: React.FC<Props> = (
     /* Props */
   }
 ) => {
+  const [selecteds, setSelecteds] = useState<number[]>([]);
+
+  function handleClick(id: number) {
+    setSelecteds((prevSelecteds) => {
+      if (prevSelecteds.includes(id)) {
+        return prevSelecteds.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelecteds, id];
+      }
+    });
+  }
   return (
     <Container>
-      <Flex direction={"column"} gap={'0.25rem'}>
-        <Heading fontWeight={500} fontSize={"36px"} >
+      <Flex direction={"column"} gap={"0.25rem"}>
+        <Heading fontWeight={500} fontSize={"36px"}>
           Informe aos hóspedes o que seu espaço tem para oferecer
         </Heading>
 
@@ -38,7 +48,14 @@ export const SixComponent: React.FC<Props> = (
           </Text>
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
             {cardFavorites.map((card, index) => (
-              <Card key={index} title={card.title} icon={card.icon} />
+              <Card
+                key={index}
+                title={card.title}
+                icon={card.icon}
+                id={card.id}
+                onClick={handleClick}
+                selected={selecteds.includes(card.id)}
+              />
             ))}
           </SimpleGrid>
         </Flex>
@@ -49,7 +66,14 @@ export const SixComponent: React.FC<Props> = (
           </Text>
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
             {cardAmenity.map((card, index) => (
-              <Card key={index} title={card.title} icon={card.icon} />
+              <Card
+                key={index}
+                title={card.title}
+                icon={card.icon}
+                id={card.id}
+                onClick={handleClick}
+                selected={selecteds.includes(card.id)}
+              />
             ))}
           </SimpleGrid>
         </Flex>
@@ -60,7 +84,14 @@ export const SixComponent: React.FC<Props> = (
           </Text>
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
             {cardSecurity.map((card, index) => (
-              <Card key={index} title={card.title} icon={card.icon} />
+              <Card
+                key={index}
+                title={card.title}
+                icon={card.icon}
+                id={card.id}
+                onClick={handleClick}
+                selected={selecteds.includes(card.id)}
+              />
             ))}
           </SimpleGrid>
         </Flex>

@@ -4,18 +4,16 @@ import React from "react";
 // Components
 
 // Styles
-import { Flex, Heading, Text,  } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 import TextArea from "../../../../components/TextArea";
+import { IPlace } from "../../../../types/IPlace";
 
 interface Props {
-  // Props
+  form: IPlace;
+  handleFormChange: (key: keyof IPlace, value: any) => void;
 }
 
-export const SevenComponent: React.FC<Props> = (
-  {
-    /* Props */
-  }
-) => {
+export const SevenComponent: React.FC<Props> = ({ form, handleFormChange }) => {
   return (
     <Flex w={"60%"} direction={"column"} gap={"1.5rem"}>
       <Flex direction={"column"} gap={"0.25rem"}>
@@ -29,7 +27,12 @@ export const SevenComponent: React.FC<Props> = (
         </Text>
       </Flex>
 
-      <TextArea maxLength={32} placeholder="Digite aqui..." />
+      <TextArea
+        maxLength={32}
+        placeholder="Digite aqui..."
+        value={form.title}
+        onChange={(v) => handleFormChange("title", v)}
+      />
     </Flex>
   );
 };

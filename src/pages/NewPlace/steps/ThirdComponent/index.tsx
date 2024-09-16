@@ -7,12 +7,15 @@ import React from "react";
 import { Container } from "./styles";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { AddressForm } from "./components/AddressForm";
+import { IPlace } from "../../../../types/IPlace";
+
 
 interface Props {
-  // Props
+  form: IPlace;
+  handleFormChange: (key: keyof IPlace, value: any) => void;
 }
 
-export const ThirdComponent: React.FC<Props> = () => {
+export const ThirdComponent: React.FC<Props> = ({form,handleFormChange}) => {
   return (
     <Container>
       <Flex direction={"column"} gap={"1.5rem"}>
@@ -27,7 +30,7 @@ export const ThirdComponent: React.FC<Props> = () => {
           </Text>
         </Flex>
 
-       <AddressForm/>
+       <AddressForm form={form} handleFormChange={handleFormChange}/>
       </Flex>
     </Container>
   );

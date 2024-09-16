@@ -7,22 +7,14 @@ import React, { useState } from "react";
 import { Container } from "./styles";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import EditableInput from "../../../../components/EditableInput";
+import { IPlace } from "../../../../types/IPlace";
 
 interface Props {
-  // Props
+  form: IPlace;
+  handleFormChange: (key: keyof IPlace, value: any) => void;
 }
 
-export const TenComponent: React.FC<Props> = (
-  {
-    /* Props */
-  }
-) => {
-  const [price, setPrice] = useState<string>("R$70");
-
-  const handlePriceChange = (newValue: string) => {
-    setPrice(newValue);
-  };
-
+export const TenComponent: React.FC<Props> = ({ form, handleFormChange }) => {
   return (
     <Container>
       <Flex direction={"column"} gap={"0.5rem"}>
@@ -35,10 +27,9 @@ export const TenComponent: React.FC<Props> = (
         </Text>
       </Flex>
 
-     
       <EditableInput
-        value={price}
-        onValueChange={handlePriceChange}
+        value={form.price}
+        onValueChange={(v) => handleFormChange("price", v)}
       />
     </Container>
   );

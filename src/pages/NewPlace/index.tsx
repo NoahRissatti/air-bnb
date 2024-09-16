@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FirstStep } from "./steps/FirstStep";
@@ -12,6 +12,7 @@ import { SevenComponent } from "./steps/SevenComponent";
 import { EightComponent } from "./steps/EightComponent";
 import { NineComponent } from "./steps/NineComponent";
 import { TenComponent } from "./steps/TenComponent";
+import { useNewPlace } from "./hooks/useNewPlace";
 
 // Criação de um componente MotionFlex separado
 const MotionFlex = motion(Flex);
@@ -23,15 +24,13 @@ const stepVariants = {
 };
 
 export const NewPlace: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const handleNextStep = () => {
-    setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
-  };
-
-  const handlePreviousStep = () => {
-    setCurrentStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
-  };
+  const {
+    currentStep,
+    handleNextStep,
+    handlePreviousStep,
+    form,
+    handleFormChange,
+  } = useNewPlace();
 
   const paddingValue = useBreakpointValue({ base: "1rem", md: "5rem 10rem" });
 
@@ -55,15 +54,27 @@ export const NewPlace: React.FC = () => {
           justifyContent="center"
         >
           {currentStep === 1 && <FirstStep />}
-          {currentStep === 2 && <SecondStep />}
-          {currentStep === 3 && <ThirdComponent />}
-          {currentStep === 4 && <QuadComponent />}
+          {currentStep === 2 && (
+            <SecondStep form={form} handleFormChange={handleFormChange} />
+          )}
+          {currentStep === 3 && (
+            <ThirdComponent form={form} handleFormChange={handleFormChange} />
+          )}
+          {currentStep === 4 && (
+            <QuadComponent form={form} handleFormChange={handleFormChange} />
+          )}
           {currentStep === 5 && <FiveComponent />}
           {currentStep === 6 && <SixComponent />}
-          {currentStep === 7 && <SevenComponent />}
-          {currentStep === 8 && <EightComponent />}
+          {currentStep === 7 && (
+            <SevenComponent form={form} handleFormChange={handleFormChange} />
+          )}
+          {currentStep === 8 && (
+            <EightComponent form={form} handleFormChange={handleFormChange} />
+          )}
           {currentStep === 9 && <NineComponent />}
-          {currentStep === 10 && <TenComponent />}
+          {currentStep === 10 && (
+            <TenComponent form={form} handleFormChange={handleFormChange} />
+          )}
         </MotionFlex>
       </Flex>
 
