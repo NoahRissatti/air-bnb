@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FirstStep } from "./steps/FirstStep";
 import { SecondStep } from "./steps/SecondStep";
@@ -13,6 +13,7 @@ import { EightComponent } from "./steps/EightComponent";
 import { NineComponent } from "./steps/NineComponent";
 import { TenComponent } from "./steps/TenComponent";
 import { useNewPlace } from "./hooks/useNewPlace";
+import { HomeSVG } from "../../assets/icons/NewPlace/Home";
 
 // Criação de um componente MotionFlex separado
 const MotionFlex = motion(Flex);
@@ -35,55 +36,64 @@ export const NewPlace: React.FC = () => {
   const paddingValue = useBreakpointValue({ base: "1rem", md: "5rem 10rem" });
 
   return (
-    <Container>
-      <Flex
-        direction="column"
-        flex={1}
-        justifyContent="center"
-        alignItems="center"
-        p={paddingValue}
-      >
-        <MotionFlex
-          key={currentStep}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={stepVariants}
-          transition={{ duration: 0.5 }}
-          alignItems="center"
+    <Flex direction="column" minHeight="100vh">
+      <Box p={"2rem"} position={"absolute"} cursor={"pointer"}>
+        <HomeSVG />
+      </Box>
+      <Container>
+        <Flex
+          direction="column"
+          flex={1}
           justifyContent="center"
+          alignItems="center"
+          p={paddingValue}
         >
-          {currentStep === 1 && <FirstStep />}
-          {currentStep === 2 && (
-            <SecondStep form={form} handleFormChange={handleFormChange} />
-          )}
-          {currentStep === 3 && (
-            <ThirdComponent form={form} handleFormChange={handleFormChange} />
-          )}
-          {currentStep === 4 && (
-            <QuadComponent form={form} handleFormChange={handleFormChange} />
-          )}
-          {currentStep === 5 && <FiveComponent />}
-          {currentStep === 6 && <SixComponent />}
-          {currentStep === 7 && (
-            <SevenComponent form={form} handleFormChange={handleFormChange} />
-          )}
-          {currentStep === 8 && (
-            <EightComponent form={form} handleFormChange={handleFormChange} />
-          )}
-          {currentStep === 9 && <NineComponent />}
-          {currentStep === 10 && (
-            <TenComponent form={form} handleFormChange={handleFormChange} />
-          )}
-        </MotionFlex>
-      </Flex>
+          <MotionFlex
+            key={currentStep}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={stepVariants}
+            transition={{ duration: 0.5 }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            {currentStep === 1 && <FirstStep />}
+            {currentStep === 2 && (
+              <SecondStep form={form} handleFormChange={handleFormChange} />
+            )}
+            {currentStep === 3 && (
+              <ThirdComponent form={form} handleFormChange={handleFormChange} />
+            )}
+            {currentStep === 4 && (
+              <QuadComponent form={form} handleFormChange={handleFormChange} />
+            )}
+            {currentStep === 5 && <FiveComponent />}
+            {currentStep === 6 && <SixComponent />}
+            {currentStep === 7 && (
+              <SevenComponent form={form} handleFormChange={handleFormChange} />
+            )}
+            {currentStep === 8 && (
+              <EightComponent form={form} handleFormChange={handleFormChange} />
+            )}
+            {currentStep === 9 && <NineComponent />}
+            {currentStep === 10 && (
+              <TenComponent form={form} handleFormChange={handleFormChange} />
+            )}
+          </MotionFlex>
+        </Flex>
+      </Container>
 
       <Flex
+        as="footer"
         align="center"
         justifyContent="space-between"
         w="100%"
         p="1rem 3rem"
         borderTop="1px solid gray"
+        bg="white"
+        position="fixed"
+        bottom={0}
       >
         <Button
           variant="link"
@@ -111,6 +121,6 @@ export const NewPlace: React.FC = () => {
           Avançar
         </Button>
       </Flex>
-    </Container>
+    </Flex>
   );
 };
