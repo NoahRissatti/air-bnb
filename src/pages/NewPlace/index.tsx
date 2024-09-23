@@ -14,6 +14,7 @@ import { NineComponent } from "./steps/NineComponent";
 import { TenComponent } from "./steps/TenComponent";
 import { useNewPlace } from "./hooks/useNewPlace";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
+import { useNavigate } from "react-router-dom";
 
 // Criação de um componente MotionFlex separado
 const MotionFlex = motion(Flex);
@@ -32,12 +33,22 @@ export const NewPlace: React.FC = () => {
     form,
     handleFormChange,
   } = useNewPlace();
+  const navigate = useNavigate();
 
   const paddingValue = useBreakpointValue({ base: "1rem", md: "5rem 10rem" });
 
+  const handleNavigate = () => {
+    navigate("/");
+  };
+
   return (
     <Flex direction="column" minHeight="100vh">
-      <Box p={"2rem"} position={"absolute"} cursor={"pointer"}>
+      <Box
+        p={"2rem"}
+        position={"absolute"}
+        cursor={"pointer"}
+        onClick={handleNavigate}
+      >
         <HomeSVG />
       </Box>
       <Container>

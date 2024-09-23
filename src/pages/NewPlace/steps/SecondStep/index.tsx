@@ -6,9 +6,10 @@ import React, { useState } from "react";
 // Styles
 import { Container } from "./styles";
 import { Heading, SimpleGrid } from "@chakra-ui/react";
-import { cardData } from "./constants";
+
 import { Card } from "../../../../components/Card";
 import { IPlace } from "../../../../types/IPlace";
+import { typeOfPlaceData } from "../../../../constants";
 
 interface Props {
   form: IPlace;
@@ -19,8 +20,8 @@ export const SecondStep: React.FC<Props> = ({ form, handleFormChange }) => {
   const [selected, setSelected] = useState(form.typeId || 0);
 
   function handleClick(id: number) {
-    setSelected(id)
-    handleFormChange('typeId',id)
+    setSelected(id);
+    handleFormChange("typeId", id);
   }
 
   return (
@@ -30,7 +31,7 @@ export const SecondStep: React.FC<Props> = ({ form, handleFormChange }) => {
       </Heading>
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
-        {cardData.map((card, index) => (
+        {typeOfPlaceData.map((card, index) => (
           <Card
             key={index}
             title={card.title}

@@ -7,7 +7,7 @@ export const HomeSVG = (props: SVGProps<SVGSVGElement>) => (
     height="35px"
     viewBox="0 0 24 24"
     fill="none"
-    stroke="currentColor"
+    stroke="deeppink"
     strokeLinecap="round"
     strokeLinejoin="round"
     strokeWidth={1.5}
