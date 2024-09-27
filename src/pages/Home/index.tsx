@@ -40,6 +40,9 @@ export const Home: React.FC<Props> = (
     navigate("/new-place");
   };
 
+  const handlePlaceClick = () => {
+    window.open("/place", "_blank");
+  };
   return (
     <Container>
       <HStack
@@ -93,7 +96,11 @@ export const Home: React.FC<Props> = (
 
         <SimpleGrid columns={[3, 4, 5, 6]} spacing={6} w="100%">
           {placesMock.map((item, index) => (
-            <PlaceListIten key={index} place={item} />
+            <PlaceListIten
+              key={index}
+              place={item}
+              onClick={handlePlaceClick}
+            />
           ))}
         </SimpleGrid>
       </VStack>

@@ -9,9 +9,10 @@ import { IPlace } from "../../../../types/IPlace";
 
 interface Props {
   place: IPlace;
+  onClick: () => void;
 }
 
-export const PlaceListIten: React.FC<Props> = ({ place }) => {
+export const PlaceListIten: React.FC<Props> = ({ place, onClick }) => {
   return (
     <Box
       borderRadius="md"
@@ -19,6 +20,7 @@ export const PlaceListIten: React.FC<Props> = ({ place }) => {
       backgroundColor="white"
       w={300}
       cursor={"pointer"}
+      onClick={onClick}
     >
       <Box
         bg="gray.300"
