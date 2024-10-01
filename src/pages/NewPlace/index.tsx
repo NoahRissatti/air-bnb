@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FirstStep } from "./steps/FirstStep";
@@ -15,6 +15,8 @@ import { TenComponent } from "./steps/TenComponent";
 import { useNewPlace } from "./hooks/useNewPlace";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
 import { useNavigate } from "react-router-dom";
+import { IPlace } from "../../types/IPlace";
+import axios from "axios";
 
 // Criação de um componente MotionFlex separado
 const MotionFlex = motion(Flex);
@@ -40,6 +42,48 @@ export const NewPlace: React.FC = () => {
   const handleNavigate = () => {
     navigate("/");
   };
+
+  const handleSubmit = async () => {
+    const data: IPlace = {
+      typeId: 1,
+      address: {
+        cep: "13560710",
+        country: "Brasil",
+        address: "Rua José Rodrigues Sampaio",
+        complement: "Apto 22",
+        neighborhood: "Centro",
+        city: "São Carlos",
+      },
+      guests: 2,
+      rooms: 2,
+      beds: 2,
+      amenities: [1, 2, 8, 4],
+      title: "Pousada relaxante",
+      description:
+        "Situada em meio à natureza exuberante, a Pousada Recanto Sereno é o refúgio perfeito para quem busca tranquilidade e conforto. Localizada a poucos minutos das praias mais belas da região, nossa pousada oferece acomodações aconchegantes em um ambiente acolhedor e relaxante.",
+      price: "70",
+    };
+
+    try {
+      const result = await axios.post("http://localhost:3001/api/places", data);
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<IPlace[]>(
+          "http://localhost:3001/api/places"
+        );
+      } catch (error) {
+        console.error("Erro:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Flex direction="column" minHeight="100vh">
