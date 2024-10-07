@@ -1,5 +1,5 @@
 // External Libraries
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Components
 
@@ -7,18 +7,12 @@ import React, { useState } from "react";
 import { Container } from "./styles";
 import { typeOfPlaceData } from "../../constants";
 import { FilterItem } from "./components/FilterItem";
-import {
-  Box,
-  Heading,
-  HStack,
-  SimpleGrid,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { placesMock } from "../../types/IPlace";
+import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { IPlace } from "../../types/IPlace";
 import { PlaceListIten } from "./components/PlaceListIten";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface Props {
   // Props
@@ -30,6 +24,7 @@ export const Home: React.FC<Props> = (
   }
 ) => {
   const [selected, setSelected] = useState(0);
+  const [places, setPlaces] = useState<IPlace[]>([]);
   const navigate = useNavigate();
 
   function handleClick(id: number) {
@@ -43,6 +38,22 @@ export const Home: React.FC<Props> = (
   const handlePlaceClick = () => {
     window.open("/place", "_blank");
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<IPlace[]>(
+          "http://localhost:3001/api/places"
+        );
+
+        setPlaces(response.data);
+      } catch (error) {
+        console.error("Erro:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <Container>
       <HStack
@@ -94,15 +105,21 @@ export const Home: React.FC<Props> = (
           ))}
         </HStack>
 
-        <SimpleGrid columns={[3, 4, 5, 6]} spacing={6} w="100%">
-          {placesMock.map((item, index) => (
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          gap={6}
+          w="100%"
+          justifyContent={"center"}
+        >
+          {places.map((item, index) => (
             <PlaceListIten
               key={index}
               place={item}
               onClick={handlePlaceClick}
             />
           ))}
-        </SimpleGrid>
+        </Box>
       </VStack>
     </Container>
   );

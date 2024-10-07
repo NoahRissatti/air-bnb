@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FirstStep } from "./steps/FirstStep";
@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { IPlace } from "../../types/IPlace";
 import axios from "axios";
 
-// Criação de um componente MotionFlex separado
 const MotionFlex = motion(Flex);
 
 const stepVariants = {
@@ -45,23 +44,23 @@ export const NewPlace: React.FC = () => {
 
   const handleSubmit = async () => {
     const data: IPlace = {
-      typeId: 1,
+      typeId: 6,
       address: {
-        cep: "13560710",
+        cep: "68900080",
         country: "Brasil",
-        address: "Rua José Rodrigues Sampaio",
-        complement: "Apto 22",
-        neighborhood: "Centro",
-        city: "São Carlos",
+        address: "Avenida Mário Cruz",
+        complement: "Chalé 12",
+        neighborhood: "Santa Inês",
+        city: "Macapá",
       },
-      guests: 2,
-      rooms: 2,
-      beds: 2,
-      amenities: [1, 2, 8, 4],
-      title: "Pousada relaxante",
+      guests: 5,
+      rooms: 3,
+      beds: 4,
+      amenities: [1, 5, 8, 9],
+      title: "Chalé Aconchegante à Beira do Rio",
       description:
-        "Situada em meio à natureza exuberante, a Pousada Recanto Sereno é o refúgio perfeito para quem busca tranquilidade e conforto. Localizada a poucos minutos das praias mais belas da região, nossa pousada oferece acomodações aconchegantes em um ambiente acolhedor e relaxante.",
-      price: "70",
+        "Este chalé encantador está situado à beira do rio, oferecendo uma experiência tranquila em meio à natureza. Ideal para famílias ou grupos de amigos, o local é perfeito para relaxar e aproveitar a beleza da região de Macapá, com fácil acesso a trilhas e atividades ao ar livre.",
+      price: "180",
     };
 
     try {
@@ -70,20 +69,6 @@ export const NewPlace: React.FC = () => {
       console.error("Erro ao enviar dados:", error);
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<IPlace[]>(
-          "http://localhost:3001/api/places"
-        );
-      } catch (error) {
-        console.error("Erro:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <Flex direction="column" minHeight="100vh">
