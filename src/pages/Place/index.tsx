@@ -1,5 +1,5 @@
 // External Libraries
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Components
 
@@ -7,9 +7,11 @@ import React from "react";
 import { Container } from "./styles";
 import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider";
 import { SelectQuantityDropbox } from "./components/SelectQuantityDropbox";
+import axios from "axios";
+import { IPlace } from "../../types/IPlace";
 
 interface Props {
   // Props
@@ -21,10 +23,33 @@ export const Place: React.FC<Props> = (
   }
 ) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [place, setPlace] = useState<IPlace | null>(null);
 
   const handleNavigate = () => {
     navigate("/new-place");
   };
+
+  const queryParams = new URLSearchParams(location.search);
+  const placeId = queryParams.get("id");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<IPlace>(
+          `http://localhost:3001/api/places/${placeId}`
+        );
+
+        setPlace(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Erro:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Container>
@@ -73,7 +98,7 @@ export const Place: React.FC<Props> = (
           mb={"12px"}
           alignSelf={"start"}
         >
-          Oásis Urbano | Metro Faria Lima | Piscina |Co-Work
+          {place?.title}
         </Heading>
 
         <Box width="100%" height="500px" bg="gray.300" borderRadius={"12px"} />
@@ -91,19 +116,18 @@ export const Place: React.FC<Props> = (
           >
             <VStack gap={"0px"} alignItems={"flex-start"}>
               <Text fontWeight={500} fontSize={"24px"}>
-                Espaço inteiro: apartamento em São Paulo, Brasil
+                {`Espaço inteiro: ${place?.typeId} em ${place?.address?.city}, ${place?.address?.country}`}
               </Text>
 
               <Text fontWeight={400} fontSize={"18px"}>
-                4 hóspedes 1 quarto 2 camas 1 banheiro
+                {`${place?.guests} hóspedes ${place?.beds} camas ${place?.rooms} quartos`}
               </Text>
             </VStack>
 
             <Divider />
 
             <Text fontWeight={400} fontSize={"18px"} p={"0.5rem 0rem"}>
-              Imagine abrir seus olhos toda manhã com vistas espetaculares, em
-              um espaço cheio de oportunidades. A poucos passos da Faria Lima.
+              {place?.description}
             </Text>
 
             <Divider />

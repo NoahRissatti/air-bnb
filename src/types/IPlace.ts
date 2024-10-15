@@ -1,4 +1,5 @@
 export type IPlace = {
+  id?: number;
   typeId: number;
   address: IAddress;
   guests: number;

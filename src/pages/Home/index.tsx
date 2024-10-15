@@ -35,8 +35,12 @@ export const Home: React.FC<Props> = (
     navigate("/new-place");
   };
 
-  const handlePlaceClick = () => {
-    window.open("/place", "_blank");
+  const handlePlaceClick = (place: IPlace) => {
+    console.log(place.id);
+
+    const url = `/place?id=${place.id}`;
+
+    window.open(url, "_blank");
   };
 
   useEffect(() => {
@@ -54,6 +58,7 @@ export const Home: React.FC<Props> = (
 
     fetchData();
   }, []);
+
   return (
     <Container>
       <HStack

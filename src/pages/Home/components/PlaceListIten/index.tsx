@@ -4,7 +4,7 @@ import { IPlace } from "../../../../types/IPlace";
 
 interface Props {
   place: IPlace;
-  onClick: () => void;
+  onClick: (place: IPlace) => void;
 }
 
 export const PlaceListIten: React.FC<Props> = ({ place, onClick }) => {
@@ -20,7 +20,7 @@ export const PlaceListIten: React.FC<Props> = ({ place, onClick }) => {
       }}
       h="auto"
       cursor={"pointer"}
-      onClick={onClick}
+      onClick={() => onClick(place)}
       mb={4}
     >
       <Box bg="gray.300" w="100%" h={270} borderRadius={14} />
