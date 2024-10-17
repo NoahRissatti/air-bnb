@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FirstStep } from "./steps/FirstStep";
 import { SecondStep } from "./steps/SecondStep";
@@ -36,8 +36,6 @@ export const NewPlace: React.FC = () => {
   } = useNewPlace();
   const navigate = useNavigate();
 
-  const paddingValue = useBreakpointValue({ base: "1rem", md: "5rem 10rem" });
-
   const handleNavigate = () => {
     navigate("/");
   };
@@ -71,7 +69,7 @@ export const NewPlace: React.FC = () => {
   };
 
   return (
-    <Flex direction="column" minHeight="100vh">
+    <Flex direction="column">
       <Box
         p={"2rem"}
         position={"absolute"}
@@ -81,13 +79,7 @@ export const NewPlace: React.FC = () => {
         <HomeSVG />
       </Box>
       <Container>
-        <Flex
-          direction="column"
-          flex={1}
-          justifyContent="center"
-          alignItems="center"
-          p={paddingValue}
-        >
+        <Flex direction="column" flex={1}>
           <MotionFlex
             key={currentStep}
             initial="hidden"
@@ -98,69 +90,76 @@ export const NewPlace: React.FC = () => {
             alignItems="center"
             justifyContent="center"
           >
-            {currentStep === 1 && <FirstStep />}
+            {currentStep === 1 && <FirstStep handleNextStep={handleNextStep} />}
             {currentStep === 2 && (
-              <SecondStep form={form} handleFormChange={handleFormChange} />
+              <SecondStep
+                form={form}
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
             )}
             {currentStep === 3 && (
-              <ThirdComponent form={form} handleFormChange={handleFormChange} />
+              <ThirdComponent
+                form={form}
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
             )}
             {currentStep === 4 && (
-              <QuadComponent form={form} handleFormChange={handleFormChange} />
+              <QuadComponent
+                form={form}
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
             )}
-            {currentStep === 5 && <FiveComponent />}
-            {currentStep === 6 && <SixComponent />}
+            {currentStep === 5 && (
+              <FiveComponent
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
+            )}
+            {currentStep === 6 && (
+              <SixComponent
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
+            )}
             {currentStep === 7 && (
-              <SevenComponent form={form} handleFormChange={handleFormChange} />
+              <SevenComponent
+                form={form}
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
             )}
             {currentStep === 8 && (
-              <EightComponent form={form} handleFormChange={handleFormChange} />
+              <EightComponent
+                form={form}
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
             )}
-            {currentStep === 9 && <NineComponent />}
+            {currentStep === 9 && (
+              <NineComponent
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
+            )}
             {currentStep === 10 && (
-              <TenComponent form={form} handleFormChange={handleFormChange} />
+              <TenComponent
+                form={form}
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
             )}
           </MotionFlex>
         </Flex>
       </Container>
-
-      <Flex
-        as="footer"
-        align="center"
-        justifyContent="space-between"
-        w="100%"
-        p="1rem 3rem"
-        borderTop="1px solid gray"
-        bg="white"
-        position="fixed"
-        bottom={0}
-      >
-        <Button
-          variant="link"
-          size="lg"
-          color="black"
-          _hover={{ textDecoration: "none" }}
-          sx={{
-            textDecoration: "underline",
-            textDecorationColor: "black",
-            textDecorationThickness: "2px",
-          }}
-          onClick={handlePreviousStep}
-          isDisabled={currentStep === 1}
-        >
-          Voltar
-        </Button>
-
-        <Button
-          bg="black"
-          color="white"
-          _hover={{ bg: "gray.700" }}
-          size="lg"
-          onClick={handleNextStep}
-        >
-          Avançar
-        </Button>
-      </Flex>
     </Flex>
   );
 };

@@ -5,47 +5,63 @@ import React from "react";
 
 // Styles
 import { Flex, Heading, Text, Image } from "@chakra-ui/react";
+import { Footer } from "../../components/Footer";
 
 interface Props {
-  // Props
+  handleNextStep: () => void;
+  handlePreviousStep: () => void;
 }
 
-export const NineComponent: React.FC<Props> = (
-  {
-    /* Props */
-  }
-) => {
+export const NineComponent: React.FC<Props> = ({
+  handleNextStep,
+  handlePreviousStep,
+}) => {
   return (
     <Flex
       w={"100%"}
-      direction={{ base: "column", md: "row" }}
-      gap={"24px"}
-      align={"center"}
-      p={["4", "6", "8"]}
+      alignItems={"center"}
+      justifyContent={"center"}
+      minHeight="100vh"
     >
-      <Flex direction={"column"} w={{ base: "100%", md: "60%" }} gap={"12px"}>
-        <Text fontSize={"lg"} fontWeight={600}>
-          Etapa 3
-        </Text>
+      <Flex
+        w={"70%"}
+        direction={{ base: "column", md: "row" }}
+        gap={"24px"}
+        align={"center"}
+        p={["4", "6", "8"]}
+      >
+        <Flex direction={"column"} w={{ base: "100%", md: "60%" }} gap={"12px"}>
+          <Text fontSize={"lg"} fontWeight={600}>
+            Etapa 3
+          </Text>
 
-        <Heading fontSize={"48px"} fontWeight={600}>
-          Conclua e publique
-        </Heading>
+          <Heading fontSize={"48px"} fontWeight={600}>
+            Conclua e publique
+          </Heading>
 
-        <Text fontSize={"lg"} fontWeight={400}>
-          Por fim, você poderá configurar
-          os preços e publicar seu anúncio.
-        </Text>
+          <Text fontSize={"lg"} fontWeight={400}>
+            Por fim, você poderá configurar os preços e publicar seu anúncio.
+          </Text>
+        </Flex>
+
+        <Flex
+          w={{ base: "100%", md: "40%" }}
+          justify={"center"}
+          align={"center"}
+        >
+          <Image
+            src="https://img.freepik.com/psd-gratuitas/ilustracao-de-casa-e-propriedade-3d_23-2151682344.jpg"
+            alt="Imagem ilustrativa"
+            boxSize={{ base: "100%", md: "400px" }}
+            objectFit="cover"
+          />
+        </Flex>
       </Flex>
 
-      <Flex w={{ base: "100%", md: "40%" }} justify={"center"} align={"center"}>
-        <Image
-          src="https://img.freepik.com/psd-gratuitas/ilustracao-de-casa-e-propriedade-3d_23-2151682344.jpg"
-          alt="Imagem ilustrativa"
-          boxSize={{ base: "100%", md: "400px" }}
-          objectFit="cover"
-        />
-      </Flex>
+      <Footer
+        handleNextStep={handleNextStep}
+        handlePreviousStep={handlePreviousStep}
+      />
     </Flex>
   );
 };
