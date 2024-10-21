@@ -33,6 +33,8 @@ export const NewPlace: React.FC = () => {
     handlePreviousStep,
     form,
     handleFormChange,
+    handleAddressNextStep,
+    handleAmmenitiesNextStep,
   } = useNewPlace();
   const navigate = useNavigate();
 
@@ -103,7 +105,7 @@ export const NewPlace: React.FC = () => {
               <ThirdComponent
                 form={form}
                 handleFormChange={handleFormChange}
-                handleNextStep={handleNextStep}
+                handleNextStep={handleAddressNextStep}
                 handlePreviousStep={handlePreviousStep}
               />
             )}
@@ -123,7 +125,7 @@ export const NewPlace: React.FC = () => {
             )}
             {currentStep === 6 && (
               <SixComponent
-                handleNextStep={handleNextStep}
+                handleNextStep={handleAmmenitiesNextStep}
                 handlePreviousStep={handlePreviousStep}
               />
             )}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IPlace } from "../../../../types/IPlace";
+import { IAddress, IPlace } from "../../../../types/IPlace";
 import { createInitialPlace } from "../../../../utils/functions";
 
 export function useNewPlace() {
@@ -7,7 +7,21 @@ export function useNewPlace() {
   const [currentStep, setCurrentStep] = useState(1);
 
   const handleNextStep = () => {
+    console.log(form);
+
     setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+  };
+
+  const handleAddressNextStep = (address: IAddress) => {
+    console.log(form);
+
+    setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+    handleFormChange("address", address);
+  };
+
+  const handleAmmenitiesNextStep = (amenities: number[]) => {
+    setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+    handleFormChange("amenities", amenities);
   };
 
   const handlePreviousStep = () => {
@@ -21,5 +35,13 @@ export function useNewPlace() {
     }));
   }
 
-  return { form,handleFormChange,currentStep, handleNextStep,handlePreviousStep };
+  return {
+    form,
+    handleFormChange,
+    currentStep,
+    handleNextStep,
+    handlePreviousStep,
+    handleAddressNextStep,
+    handleAmmenitiesNextStep,
+  };
 }

@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import axios from "axios";
 import { Flex } from "@chakra-ui/react";
 import { FloatingInput } from "../../../../../../components/Input";
-import { IPlace } from "../../../../../../types/IPlace";
+import { IAddress, IPlace } from "../../../../../../types/IPlace";
 
 interface Props {
   form: IPlace;
-  handleFormChange: (key: keyof IPlace, value: any) => void;
+  localAddress: IAddress;
+  setLocalAddress: Dispatch<SetStateAction<IAddress>>;
 }
 
-export const AddressForm: React.FC<Props> = ({ form, handleFormChange }) => {
+export const AddressForm: React.FC<Props> = ({
+  form,
+  localAddress,
+  setLocalAddress,
+}) => {
   const [cep, setCep] = useState<string>(form.address.cep || "");
-  const [localAddress, setLocalAddress] = useState(form.address);
-
-  useEffect(() => {
-    setLocalAddress(form.address);
-  }, [form.address]);
 
   useEffect(() => {
     // Fetch address when CEP has exactly 8 digits
     if (cep.length === 8) {
       const fetchAddressFromCep = async (cep: string) => {
         try {
-          const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+          const response = await axios.get(
+            `https://viacep.com.br/ws/${cep}/json/`
+          );
           const data = response.data;
 
           if (data && !data.erro) {
-            setLocalAddress(prev => ({
+            setLocalAddress((prev) => ({
               ...prev,
               address: data.logradouro,
               neighborhood: data.bairro,
@@ -46,12 +48,8 @@ export const AddressForm: React.FC<Props> = ({ form, handleFormChange }) => {
     }
   }, [cep]);
 
-  useEffect(() => {
-    handleFormChange("address", localAddress);
-  }, [localAddress, handleFormChange]);
-
-  const handleInputChange = (key: keyof IPlace['address'], value: string) => {
-    setLocalAddress(prev => ({
+  const handleInputChange = (key: keyof IPlace["address"], value: string) => {
+    setLocalAddress((prev) => ({
       ...prev,
       [key]: value,
     }));

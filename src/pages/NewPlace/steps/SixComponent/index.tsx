@@ -11,7 +11,7 @@ import { cardAmenity, cardFavorites, cardSecurity } from "./constants";
 import { Footer } from "../../components/Footer";
 
 interface Props {
-  handleNextStep: () => void;
+  handleNextStep: (ammenities: number[]) => void;
   handlePreviousStep: () => void;
 }
 
@@ -106,7 +106,7 @@ export const SixComponent: React.FC<Props> = ({
       </Container>
 
       <Footer
-        handleNextStep={handleNextStep}
+        handleNextStep={() => handleNextStep(selecteds)}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

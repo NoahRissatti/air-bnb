@@ -1,5 +1,5 @@
 // External Libraries
-import React from "react";
+import React, { useState } from "react";
 
 // Components
 
@@ -7,13 +7,13 @@ import React from "react";
 import { Container } from "./styles";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { AddressForm } from "./components/AddressForm";
-import { IPlace } from "../../../../types/IPlace";
+import { IAddress, IPlace } from "../../../../types/IPlace";
 import { Footer } from "../../components/Footer";
 
 interface Props {
   form: IPlace;
   handleFormChange: (key: keyof IPlace, value: any) => void;
-  handleNextStep: () => void;
+  handleNextStep: (address: IAddress) => void;
   handlePreviousStep: () => void;
 }
 
@@ -23,6 +23,8 @@ export const ThirdComponent: React.FC<Props> = ({
   handleNextStep,
   handlePreviousStep,
 }) => {
+  const [localAddress, setLocalAddress] = useState(form.address);
+
   return (
     <Flex
       w={"100%"}
@@ -43,12 +45,16 @@ export const ThirdComponent: React.FC<Props> = ({
             </Text>
           </Flex>
 
-          <AddressForm form={form} handleFormChange={handleFormChange} />
+          <AddressForm
+            form={form}
+            localAddress={localAddress}
+            setLocalAddress={setLocalAddress}
+          />
         </Flex>
       </Container>
 
       <Footer
-        handleNextStep={handleNextStep}
+        handleNextStep={() => handleNextStep(localAddress)}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>
