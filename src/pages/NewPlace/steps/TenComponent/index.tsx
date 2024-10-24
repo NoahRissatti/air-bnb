@@ -13,14 +13,14 @@ import { Footer } from "../../components/Footer";
 interface Props {
   form: IPlace;
   handleFormChange: (key: keyof IPlace, value: any) => void;
-  handleNextStep: () => void;
+  handleSubmit: () => void;
   handlePreviousStep: () => void;
 }
 
 export const TenComponent: React.FC<Props> = ({
   form,
   handleFormChange,
-  handleNextStep,
+  handleSubmit,
   handlePreviousStep,
 }) => {
   return (
@@ -48,7 +48,7 @@ export const TenComponent: React.FC<Props> = ({
       </Container>
 
       <Footer
-        handleNextStep={handleNextStep}
+        handleNextStep={handleSubmit}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

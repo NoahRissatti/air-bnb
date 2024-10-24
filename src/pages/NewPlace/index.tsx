@@ -31,6 +31,7 @@ export const NewPlace: React.FC = () => {
     currentStep,
     handleNextStep,
     handlePreviousStep,
+    handleSubmit,
     form,
     handleFormChange,
     handleAddressNextStep,
@@ -40,34 +41,6 @@ export const NewPlace: React.FC = () => {
 
   const handleNavigate = () => {
     navigate("/");
-  };
-
-  const handleSubmit = async () => {
-    const data: IPlace = {
-      typeId: 6,
-      address: {
-        cep: "68900080",
-        country: "Brasil",
-        address: "Avenida Mário Cruz",
-        complement: "Chalé 12",
-        neighborhood: "Santa Inês",
-        city: "Macapá",
-      },
-      guests: 5,
-      rooms: 3,
-      beds: 4,
-      amenities: [1, 5, 8, 9],
-      title: "Chalé Aconchegante à Beira do Rio",
-      description:
-        "Este chalé encantador está situado à beira do rio, oferecendo uma experiência tranquila em meio à natureza. Ideal para famílias ou grupos de amigos, o local é perfeito para relaxar e aproveitar a beleza da região de Macapá, com fácil acesso a trilhas e atividades ao ar livre.",
-      price: "180",
-    };
-
-    try {
-      const result = await axios.post("http://localhost:3001/api/places", data);
-    } catch (error) {
-      console.error("Erro ao enviar dados:", error);
-    }
   };
 
   return (
@@ -155,7 +128,7 @@ export const NewPlace: React.FC = () => {
               <TenComponent
                 form={form}
                 handleFormChange={handleFormChange}
-                handleNextStep={handleNextStep}
+                handleSubmit={handleSubmit}
                 handlePreviousStep={handlePreviousStep}
               />
             )}
