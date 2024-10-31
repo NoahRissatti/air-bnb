@@ -11,6 +11,19 @@ export type IPlace = {
   price: string;
 };
 
+export type IPlaceBack = {
+  id?: number;
+  typeId: number;
+  address: IAddress;
+  guests: number;
+  rooms: number;
+  beds: number;
+  amenities: string[];
+  title: string;
+  description: string;
+  price: string;
+};
+
 export type IAddress = {
   cep: string;
   country: string;

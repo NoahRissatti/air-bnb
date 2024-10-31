@@ -22,7 +22,7 @@ export const FilterItem: React.FC<InfoCardProps> = ({
       overflow="hidden"
       direction={"column"}
       align={"center"}
-      p={4}
+      p={"0.5rem 0.5rem"}
       gap={"0.5rem"}
       transition="box-shadow 0.3s ease, background-color 0.3s ease"
       backgroundColor={"white"}
@@ -31,6 +31,7 @@ export const FilterItem: React.FC<InfoCardProps> = ({
       _hover={{
         boxShadow: "0 2px 0 0 lightgray",
       }}
+      boxShadow={selected ? "0 2px 0 0 black" : "none"}
     >
       <Icon as={icon} w={6} h={6} />
 

@@ -5,13 +5,28 @@ import React, { useEffect, useState } from "react";
 
 // Styles
 import { Container } from "./styles";
-import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider";
 import { SelectQuantityDropbox } from "./components/SelectQuantityDropbox";
 import axios from "axios";
-import { IPlace } from "../../types/IPlace";
+import { IPlace, IPlaceBack } from "../../types/IPlace";
+import {
+  cardAmenity,
+  cardFavorites,
+  cardSecurity,
+} from "../NewPlace/steps/SixComponent/constants";
+import { Card } from "../../components/Card";
+import { TitledIcon } from "./components/TitledIcon";
 
 interface Props {
   // Props
@@ -25,7 +40,7 @@ export const Place: React.FC<Props> = (
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [place, setPlace] = useState<IPlace | null>(null);
+  const [place, setPlace] = useState<IPlaceBack | null>(null);
 
   const handleNavigate = () => {
     navigate("/new-place");
@@ -34,10 +49,12 @@ export const Place: React.FC<Props> = (
   const queryParams = new URLSearchParams(location.search);
   const placeId = queryParams.get("id");
 
+  const amenities = [...cardFavorites, ...cardAmenity, ...cardSecurity];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<IPlace>(
+        const response = await axios.get<IPlaceBack>(
           `http://localhost:3001/api/places/${placeId}`
         );
 
@@ -91,7 +108,7 @@ export const Place: React.FC<Props> = (
         </HStack>
       </HStack>
 
-      <VStack p={"20px 0px"} w={"55%"} alignItems={"flex-start"}>
+      <VStack p={"20px 0px"} w={"70rem"} alignItems={"flex-start"}>
         <Heading
           fontWeight={500}
           fontSize={"28px"}
@@ -110,6 +127,7 @@ export const Place: React.FC<Props> = (
           gap={"6rem"}
         >
           <VStack
+            w={"80rem"}
             gap={"1rem"}
             justifyContent={"flex-start"}
             alignItems={"flex-start"}
@@ -135,10 +153,18 @@ export const Place: React.FC<Props> = (
             <Text fontWeight={500} fontSize={"22px"}>
               O que esse lugar oferece
             </Text>
+
+            <Grid templateColumns="repeat(2, 1fr)" gap={6} w={"100%"}>
+              {amenities
+                .filter((item) => place?.amenities.includes(item.id.toString()))
+                .map((card, index) => (
+                  <TitledIcon key={index} title={card.title} icon={card.icon} />
+                ))}
+            </Grid>
           </VStack>
 
           <Box
-            width="55%"
+            width="50rem"
             padding="20px"
             borderRadius="12px"
             boxShadow="lg"
@@ -148,7 +174,7 @@ export const Place: React.FC<Props> = (
           >
             <HStack alignItems={"end"} gap={"4px"}>
               <Text fontWeight="500" fontSize="26px">
-                R$353
+                R${place?.price}
               </Text>
               <Text color={"gray.600"} fontSize={"18px"} mb={"2px"}>
                 noite

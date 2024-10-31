@@ -1,9 +1,4 @@
-// External Libraries
 import React, { useEffect, useState } from "react";
-
-// Components
-
-// Styles
 import { Container } from "./styles";
 import { typeOfPlaceData } from "../../constants";
 import { FilterItem } from "./components/FilterItem";
@@ -37,9 +32,7 @@ export const Home: React.FC<Props> = (
 
   const handlePlaceClick = (place: IPlace) => {
     console.log(place.id);
-
     const url = `/place?id=${place.id}`;
-
     window.open(url, "_blank");
   };
 
@@ -47,7 +40,12 @@ export const Home: React.FC<Props> = (
     const fetchData = async () => {
       try {
         const response = await axios.get<IPlace[]>(
-          "http://localhost:3001/api/places"
+          `http://localhost:3001/api/places`,
+          {
+            params: {
+              typeId: selected,
+            },
+          }
         );
 
         setPlaces(response.data);
@@ -57,7 +55,7 @@ export const Home: React.FC<Props> = (
     };
 
     fetchData();
-  }, []);
+  }, [selected]);
 
   return (
     <Container>
@@ -69,7 +67,6 @@ export const Home: React.FC<Props> = (
       >
         <HStack>
           <HomeSVG />
-
           <Heading
             fontWeight={600}
             fontSize={"24px"}
@@ -97,7 +94,7 @@ export const Home: React.FC<Props> = (
       </HStack>
 
       <VStack p={"20px 80px"}>
-        <HStack spacing={2}>
+        <HStack spacing={10}>
           {typeOfPlaceData.map((item, index) => (
             <FilterItem
               key={index}
@@ -116,14 +113,21 @@ export const Home: React.FC<Props> = (
           gap={6}
           w="100%"
           justifyContent={"center"}
+          marginTop={8}
         >
-          {places.map((item, index) => (
-            <PlaceListIten
-              key={index}
-              place={item}
-              onClick={handlePlaceClick}
-            />
-          ))}
+          {places.length > 0 ? ( // Verifica se existem lugares
+            places.map((item, index) => (
+              <PlaceListIten
+                key={index}
+                place={item}
+                onClick={handlePlaceClick}
+              />
+            ))
+          ) : (
+            <Text fontSize="lg" color="gray.500">
+              Não há lugares disponíveis.
+            </Text> // Mensagem quando vazio
+          )}
         </Box>
       </VStack>
     </Container>

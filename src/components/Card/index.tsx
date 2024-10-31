@@ -6,7 +6,7 @@ interface InfoCardProps {
   title: string;
   icon: IconType;
   id: number;
-  selected: boolean;
+  selected?: boolean;
   onClick: (id: number) => void;
 }
 
@@ -30,7 +30,7 @@ export const Card: React.FC<InfoCardProps> = ({
         boxShadow: "0 0 0 2px black",
       }}
       boxShadow={selected ? "0 0 0 2px black" : "none"}
-      backgroundColor={selected ? "gray.100" : "white"} 
+      backgroundColor={selected ? "gray.100" : "white"}
       cursor="pointer"
       onClick={() => onClick(id)}
     >
