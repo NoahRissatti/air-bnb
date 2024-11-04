@@ -77,7 +77,6 @@ export const NewPlace: React.FC = () => {
             {currentStep === 3 && (
               <ThirdComponent
                 form={form}
-                handleFormChange={handleFormChange}
                 handleNextStep={handleAddressNextStep}
                 handlePreviousStep={handlePreviousStep}
               />

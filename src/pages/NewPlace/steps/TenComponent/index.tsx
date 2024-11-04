@@ -9,6 +9,7 @@ import { Flex, Heading, Text } from "@chakra-ui/react";
 import EditableInput from "../../../../components/EditableInput";
 import { IPlace } from "../../../../types/IPlace";
 import { Footer } from "../../components/Footer";
+import Swal from "sweetalert2";
 
 interface Props {
   form: IPlace;
@@ -23,6 +24,20 @@ export const TenComponent: React.FC<Props> = ({
   handleSubmit,
   handlePreviousStep,
 }) => {
+  function handleVerificationStep() {
+    if (form.price.length === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Preço é um campo obrigatório",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      handleSubmit();
+    }
+  }
+
   return (
     <Flex
       w={"100%"}
@@ -48,7 +63,7 @@ export const TenComponent: React.FC<Props> = ({
       </Container>
 
       <Footer
-        handleNextStep={handleSubmit}
+        handleNextStep={handleVerificationStep}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

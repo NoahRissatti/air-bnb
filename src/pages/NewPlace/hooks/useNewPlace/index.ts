@@ -3,6 +3,7 @@ import { IAddress, IPlace } from "../../../../types/IPlace";
 import { createInitialPlace } from "../../../../utils/functions";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export function useNewPlace() {
   const [form, setForm] = useState<IPlace>(createInitialPlace());
@@ -14,8 +15,18 @@ export function useNewPlace() {
   };
 
   const handleAddressNextStep = (address: IAddress) => {
-    setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
-    handleFormChange("address", address);
+    if (!address.address || !address.cep || !address.city || !address.country) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Por favor, preencha todos os campos obrigatórios antes de continuar.",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+      handleFormChange("address", address);
+    }
   };
 
   const handleAmmenitiesNextStep = (amenities: number[]) => {

@@ -8,6 +8,7 @@ import { Flex, Heading, Text } from "@chakra-ui/react";
 import TextArea from "../../../../components/TextArea";
 import { IPlace } from "../../../../types/IPlace";
 import { Footer } from "../../components/Footer";
+import Swal from "sweetalert2";
 
 interface Props {
   form: IPlace;
@@ -22,6 +23,20 @@ export const EightComponent: React.FC<Props> = ({
   handleNextStep,
   handlePreviousStep,
 }) => {
+  function handleVerificationStep() {
+    if (form.description.length === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Descrição é um campo obrigatório",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      handleNextStep();
+    }
+  }
+
   return (
     <Flex
       w={"100%"}
@@ -49,7 +64,7 @@ export const EightComponent: React.FC<Props> = ({
       </Flex>
 
       <Footer
-        handleNextStep={handleNextStep}
+        handleNextStep={handleVerificationStep}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

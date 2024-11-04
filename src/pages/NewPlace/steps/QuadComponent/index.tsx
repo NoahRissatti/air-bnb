@@ -10,6 +10,7 @@ import { CounterRow } from "./components/CounterRow";
 import { Divider } from "../../../../components/Divider";
 import { IPlace } from "../../../../types/IPlace";
 import { Footer } from "../../components/Footer";
+import Swal from "sweetalert2";
 
 interface Props {
   form: IPlace;
@@ -24,6 +25,36 @@ export const QuadComponent: React.FC<Props> = ({
   handleNextStep,
   handlePreviousStep,
 }) => {
+  function handleVerificationStep() {
+    if (form.guests === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Você deve ter pelo menos 1 hóspede para continuar.",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else if (form.beds === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Você deve ter pelo menos 1 cama para continuar.",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else if (form.rooms === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Você deve ter pelo menos 1 quarto para continuar.",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      handleNextStep();
+    }
+  }
+
   return (
     <Flex
       w={"100%"}
@@ -68,7 +99,7 @@ export const QuadComponent: React.FC<Props> = ({
       </Flex>
 
       <Footer
-        handleNextStep={handleNextStep}
+        handleNextStep={handleVerificationStep}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

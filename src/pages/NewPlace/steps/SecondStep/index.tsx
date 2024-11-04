@@ -11,6 +11,7 @@ import { Card } from "../../../../components/Card";
 import { IPlace } from "../../../../types/IPlace";
 import { typeOfPlaceData } from "../../../../constants";
 import { Footer } from "../../components/Footer";
+import Swal from "sweetalert2";
 
 interface Props {
   form: IPlace;
@@ -30,6 +31,20 @@ export const SecondStep: React.FC<Props> = ({
   function handleClick(id: number) {
     setSelected(id);
     handleFormChange("typeId", id);
+  }
+
+  function handleVerificationStep() {
+    if (selected === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Por favor, selecione uma opção antes de continuar.",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      handleNextStep();
+    }
   }
 
   return (
@@ -59,7 +74,7 @@ export const SecondStep: React.FC<Props> = ({
       </Container>
 
       <Footer
-        handleNextStep={handleNextStep}
+        handleNextStep={handleVerificationStep}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

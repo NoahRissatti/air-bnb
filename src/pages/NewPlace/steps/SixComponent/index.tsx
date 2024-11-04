@@ -9,6 +9,7 @@ import { Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { Card } from "../../../../components/Card";
 import { cardAmenity, cardFavorites, cardSecurity } from "./constants";
 import { Footer } from "../../components/Footer";
+import Swal from "sweetalert2";
 
 interface Props {
   handleNextStep: (ammenities: number[]) => void;
@@ -29,6 +30,20 @@ export const SixComponent: React.FC<Props> = ({
         return [...prevSelecteds, id];
       }
     });
+  }
+
+  function handleVerificationStep() {
+    if (selecteds.length === 0) {
+      Swal.fire({
+        title: "Atenção!",
+        text: "Por favor, selecione uma opção antes de continuar.",
+        icon: "warning",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      handleNextStep(selecteds);
+    }
   }
   return (
     <Flex
@@ -106,7 +121,7 @@ export const SixComponent: React.FC<Props> = ({
       </Container>
 
       <Footer
-        handleNextStep={() => handleNextStep(selecteds)}
+        handleNextStep={handleVerificationStep}
         handlePreviousStep={handlePreviousStep}
       />
     </Flex>

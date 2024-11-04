@@ -12,14 +12,12 @@ import { Footer } from "../../components/Footer";
 
 interface Props {
   form: IPlace;
-  handleFormChange: (key: keyof IPlace, value: any) => void;
   handleNextStep: (address: IAddress) => void;
   handlePreviousStep: () => void;
 }
 
 export const ThirdComponent: React.FC<Props> = ({
   form,
-  handleFormChange,
   handleNextStep,
   handlePreviousStep,
 }) => {
