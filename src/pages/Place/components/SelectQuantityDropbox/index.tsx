@@ -32,7 +32,7 @@ export const SelectQuantityDropbox = () => {
         onClick={handleClick}
         textAlign="left"
         borderWidth="1px"
-        borderColor="gray.400"
+        borderColor="gray.200"
         display="flex"
         justifyContent="space-between"
         alignItems="center"

@@ -6,7 +6,8 @@ interface FloatingInputProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
-  mb?: string
+  type?: string;
+  mb?: string;
 }
 
 export const FloatingInput: React.FC<FloatingInputProps> = ({
@@ -14,7 +15,8 @@ export const FloatingInput: React.FC<FloatingInputProps> = ({
   placeholder = "",
   value = "",
   onChange,
-  mb
+  type = "text",
+  mb,
 }) => {
   const [inputValue, setInputValue] = useState<string>(value);
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -42,23 +44,23 @@ export const FloatingInput: React.FC<FloatingInputProps> = ({
   }, [value]);
 
   return (
-    <FormControl position="relative" mb={mb || '0px'} >
+    <FormControl position="relative" mb={mb || "0px"}>
       <FormLabel
         position="absolute"
-        top={(isFocused || inputValue) ? "6px" : "50%"}
+        top={isFocused || inputValue ? "6px" : "50%"}
         left="12px"
-        fontSize={(isFocused || inputValue) ? "xs" : "sm"}
+        fontSize={isFocused || inputValue ? "xs" : "sm"}
         color="gray.500"
         transition="all 0.2s"
         pointerEvents="none"
         transform={
-          (isFocused || inputValue) ? "translateY(0)" : "translateY(-50%)"
+          isFocused || inputValue ? "translateY(0)" : "translateY(-50%)"
         }
-        
       >
         {label}
       </FormLabel>
       <Input
+        type={type}
         value={inputValue}
         onChange={handleInputChange}
         onFocus={handleFocus}
@@ -66,7 +68,7 @@ export const FloatingInput: React.FC<FloatingInputProps> = ({
         placeholder={isFocused ? "" : placeholder}
         focusBorderColor="black"
         height="52px"
-        paddingTop="24px" 
+        paddingTop="24px"
         fontWeight={400}
       />
     </FormControl>
