@@ -3,6 +3,7 @@ import "./App.css";
 import { Home } from "./pages/Home";
 import { NewPlace } from "./pages/NewPlace";
 import { Place } from "./pages/Place";
+import { Travels } from "./pages/Travels";
 function App() {
   return (
     <Router>
@@ -10,6 +11,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/new-place" element={<NewPlace />} />
         <Route path="/place" element={<Place />} />
+        <Route path="/travels" element={<Travels />} />
       </Routes>
     </Router>
   );

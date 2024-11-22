@@ -30,6 +30,10 @@ export const Home: React.FC<Props> = (
     navigate("/new-place");
   };
 
+  const handleNavigateToTravels = () => {
+    navigate("/travels");
+  };
+
   const handlePlaceClick = (place: IPlace) => {
     console.log(place.id);
     const url = `/place?id=${place.id}`;
@@ -60,16 +64,16 @@ export const Home: React.FC<Props> = (
   return (
     <Container>
       <HStack
-        p={"20px 80px"}
+        p={"15px 80px"}
         borderBottom="1px"
         borderColor="gray.200"
         justifyContent={"space-between"}
       >
-        <HStack>
+        <HStack gap={"5px"}>
           <HomeSVG />
           <Heading
             fontWeight={600}
-            fontSize={"24px"}
+            fontSize={"20px"}
             cursor={"pointer"}
             fontFamily="'Poppins', sans-serif"
             color={"deeppink"}
@@ -78,19 +82,35 @@ export const Home: React.FC<Props> = (
           </Heading>
         </HStack>
 
-        <Box
-          display="inline-block"
-          _hover={{
-            backgroundColor: "gray.100",
-            borderRadius: "40px",
-          }}
-          p={3}
-          onClick={handleNavigate}
-        >
-          <Text fontWeight={600} cursor={"pointer"}>
-            Vou hospedar
-          </Text>
-        </Box>
+        <HStack>
+          <Box
+            display="inline-block"
+            _hover={{
+              backgroundColor: "gray.100",
+              borderRadius: "40px",
+            }}
+            p={3}
+            onClick={handleNavigate}
+          >
+            <Text fontWeight={600} cursor={"pointer"}>
+              Vou hospedar
+            </Text>
+          </Box>
+
+          <Box
+            display="inline-block"
+            _hover={{
+              backgroundColor: "gray.100",
+              borderRadius: "40px",
+            }}
+            p={3}
+            onClick={handleNavigateToTravels}
+          >
+            <Text fontWeight={600} cursor={"pointer"}>
+              Viagens
+            </Text>
+          </Box>
+        </HStack>
       </HStack>
 
       <VStack p={"20px 80px"}>

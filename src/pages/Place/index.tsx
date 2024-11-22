@@ -15,19 +15,19 @@ import { FloatingInput } from "../../components/Input";
 import { Divider } from "../../components/Divider";
 import { SelectQuantityDropbox } from "./components/SelectQuantityDropbox";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
-import { IPlaceBack } from "../../types/IPlace";
 import {
   cardAmenity,
   cardFavorites,
   cardSecurity,
 } from "../NewPlace/steps/SixComponent/constants";
 import { TitledIcon } from "./components/TitledIcon";
+import { IPlace } from "../../types/IPlace";
 
 export const Place: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [place, setPlace] = useState<IPlaceBack | null>(null);
+  const [place, setPlace] = useState<IPlace | null>(null);
 
   const twoDaysAgo = new Date();
   twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
@@ -50,7 +50,7 @@ export const Place: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<IPlaceBack>(
+        const response = await axios.get<IPlace>(
           `http://localhost:3001/api/places/${placeId}`
         );
         setPlace(response.data);
@@ -140,7 +140,7 @@ export const Place: React.FC = () => {
             </Text>
             <Grid templateColumns="repeat(2, 1fr)" gap={6} w="100%">
               {amenities
-                .filter((item) => place?.amenities.includes(item.id.toString()))
+                .filter((item) => place?.amenities.includes(item.id))
                 .map((card, index) => (
                   <TitledIcon key={index} title={card.title} icon={card.icon} />
                 ))}
