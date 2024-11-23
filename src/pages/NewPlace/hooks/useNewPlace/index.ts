@@ -11,7 +11,7 @@ export function useNewPlace() {
   const navigate = useNavigate();
 
   const handleNextStep = () => {
-    setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+    setCurrentStep((prevStep) => (prevStep < 11 ? prevStep + 1 : prevStep));
   };
 
   const handleAddressNextStep = (address: IAddress) => {
@@ -24,13 +24,13 @@ export function useNewPlace() {
         confirmButtonColor: "#3085d6",
       });
     } else {
-      setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+      setCurrentStep((prevStep) => (prevStep < 11 ? prevStep + 1 : prevStep));
       handleFormChange("address", address);
     }
   };
 
   const handleAmmenitiesNextStep = (amenities: number[]) => {
-    setCurrentStep((prevStep) => (prevStep < 10 ? prevStep + 1 : prevStep));
+    setCurrentStep((prevStep) => (prevStep < 11 ? prevStep + 1 : prevStep));
     handleFormChange("amenities", amenities);
   };
 

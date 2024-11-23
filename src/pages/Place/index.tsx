@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
   Grid,
+  Image,
 } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -22,6 +23,7 @@ import {
 } from "../NewPlace/steps/SixComponent/constants";
 import { TitledIcon } from "./components/TitledIcon";
 import { IPlace } from "../../types/IPlace";
+import { typeOfPlaceData } from "../../constants";
 
 export const Place: React.FC = () => {
   const navigate = useNavigate();
@@ -72,6 +74,11 @@ export const Place: React.FC = () => {
 
   const totalPrice = calculateTotalPrice();
 
+  const getTitleById = (id: number) => {
+    const place = typeOfPlaceData.find((item) => item.id === id);
+    return place ? place.title : "Título não encontrado";
+  };
+
   return (
     <Container>
       <HStack
@@ -114,7 +121,14 @@ export const Place: React.FC = () => {
         <Heading fontWeight={500} fontSize="28px" mb="12px" alignSelf="start">
           {place?.title}
         </Heading>
-        <Box width="100%" height="500px" bg="gray.300" borderRadius="12px" />
+        <Image
+          src={place?.image}
+          alt="Descrição da imagem"
+          width="100%"
+          height="500px"
+          objectFit="cover"
+          borderRadius="12px"
+        />
         <HStack justifyContent="space-between" w="100%" mt="16px" gap="6rem">
           <VStack
             w="80rem"
@@ -124,7 +138,9 @@ export const Place: React.FC = () => {
           >
             <VStack gap="0px" alignItems="flex-start">
               <Text fontWeight={500} fontSize="24px">
-                {`Espaço inteiro: ${place?.typeId} em ${place?.address?.city}, ${place?.address?.country}`}
+                {`Espaço inteiro: ${getTitleById(Number(place?.typeId))} em ${
+                  place?.address?.city
+                }, ${place?.address?.country}`}
               </Text>
               <Text fontWeight={400} fontSize="18px">
                 {`${place?.guests} hóspedes ${place?.beds} camas ${place?.rooms} quartos`}
@@ -140,7 +156,7 @@ export const Place: React.FC = () => {
             </Text>
             <Grid templateColumns="repeat(2, 1fr)" gap={6} w="100%">
               {amenities
-                .filter((item) => place?.amenities.includes(item.id))
+                .filter((item) => place?.amenities.includes(item.id.toString()))
                 .map((card, index) => (
                   <TitledIcon key={index} title={card.title} icon={card.icon} />
                 ))}
@@ -174,12 +190,14 @@ export const Place: React.FC = () => {
                 value={checkin}
                 onChange={(value) => setCheckIn(value)}
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
               />
               <FloatingInput
                 label="CHECK-OUT"
                 value={checkOut}
                 onChange={(value) => setCheckOut(value)}
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
               />
             </HStack>
 

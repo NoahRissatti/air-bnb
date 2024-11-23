@@ -11,12 +11,14 @@ interface Props {
   handlePreviousStep?: () => void;
   handleNextStep: () => void;
   isPreviousStepDisabled?: boolean;
+  isNextStepDisabled?: boolean;
 }
 
 export const Footer: React.FC<Props> = ({
   handlePreviousStep,
   handleNextStep,
   isPreviousStepDisabled = false,
+  isNextStepDisabled = false,
 }) => {
   return (
     <Flex
@@ -52,6 +54,7 @@ export const Footer: React.FC<Props> = ({
         _hover={{ bg: "gray.700" }}
         size="lg"
         onClick={handleNextStep}
+        isDisabled={isNextStepDisabled}
       >
         Avançar
       </Button>

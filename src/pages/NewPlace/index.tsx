@@ -17,6 +17,7 @@ import { HomeSVG } from "../../assets/icons/NewPlace/Home";
 import { useNavigate } from "react-router-dom";
 import { IPlace } from "../../types/IPlace";
 import axios from "axios";
+import { ImageStep } from "./steps/ImageStep";
 
 const MotionFlex = motion(Flex);
 
@@ -102,6 +103,13 @@ export const NewPlace: React.FC = () => {
               />
             )}
             {currentStep === 7 && (
+              <ImageStep
+                handleFormChange={handleFormChange}
+                handleNextStep={handleNextStep}
+                handlePreviousStep={handlePreviousStep}
+              />
+            )}
+            {currentStep === 8 && (
               <SevenComponent
                 form={form}
                 handleFormChange={handleFormChange}
@@ -109,7 +117,7 @@ export const NewPlace: React.FC = () => {
                 handlePreviousStep={handlePreviousStep}
               />
             )}
-            {currentStep === 8 && (
+            {currentStep === 9 && (
               <EightComponent
                 form={form}
                 handleFormChange={handleFormChange}
@@ -117,13 +125,13 @@ export const NewPlace: React.FC = () => {
                 handlePreviousStep={handlePreviousStep}
               />
             )}
-            {currentStep === 9 && (
+            {currentStep === 10 && (
               <NineComponent
                 handleNextStep={handleNextStep}
                 handlePreviousStep={handlePreviousStep}
               />
             )}
-            {currentStep === 10 && (
+            {currentStep === 11 && (
               <TenComponent
                 form={form}
                 handleFormChange={handleFormChange}

@@ -5,10 +5,11 @@ export type IPlace = {
   guests: number;
   rooms: number;
   beds: number;
-  amenities: number[];
+  amenities: string[];
   title: string;
   description: string;
   price: string;
+  image: string;
 };
 
 export type IAddress = {

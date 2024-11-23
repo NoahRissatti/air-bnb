@@ -35,7 +35,6 @@ export const Home: React.FC<Props> = (
   };
 
   const handlePlaceClick = (place: IPlace) => {
-    console.log(place.id);
     const url = `/place?id=${place.id}`;
     window.open(url, "_blank");
   };

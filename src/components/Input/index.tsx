@@ -8,6 +8,7 @@ interface FloatingInputProps {
   onChange?: (value: string) => void;
   type?: string;
   mb?: string;
+  min?: any;
 }
 
 export const FloatingInput: React.FC<FloatingInputProps> = ({
@@ -16,6 +17,7 @@ export const FloatingInput: React.FC<FloatingInputProps> = ({
   value = "",
   onChange,
   type = "text",
+  min,
   mb,
 }) => {
   const [inputValue, setInputValue] = useState<string>(value);
@@ -70,6 +72,7 @@ export const FloatingInput: React.FC<FloatingInputProps> = ({
         height="52px"
         paddingTop="24px"
         fontWeight={400}
+        min={min}
       />
     </FormControl>
   );

@@ -3,6 +3,7 @@ import { IPlace } from "../../types/IPlace";
 export function createInitialPlace(): IPlace {
   return {
     typeId: 0,
+    image: "",
     address: {
       cep: "",
       country: "",
@@ -14,7 +15,7 @@ export function createInitialPlace(): IPlace {
     guests: 0,
     rooms: 0,
     beds: 0,
-    amenities: [0],
+    amenities: ["0"],
     title: "",
     description: "",
     price: "",
