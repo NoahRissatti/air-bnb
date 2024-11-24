@@ -1,64 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container } from "./styles";
 import { typeOfPlaceData } from "../../constants";
 import { FilterItem } from "./components/FilterItem";
-import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
-import { IPlace } from "../../types/IPlace";
+import { Box, Heading, HStack, Text, VStack, Skeleton } from "@chakra-ui/react";
 import { PlaceListIten } from "./components/PlaceListIten";
 import { HomeSVG } from "../../assets/icons/NewPlace/Home";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useHome } from "./hooks/useHome";
 
-interface Props {
-  // Props
-}
+export const Home: React.FC = () => {
+  const {
+    places,
+    selected,
+    handleClick,
+    handlePlaceClick,
+    handleNavigate,
+    handleNavigateToTravels,
+  } = useHome();
 
-export const Home: React.FC<Props> = (
-  {
-    /* Props */
-  }
-) => {
-  const [selected, setSelected] = useState(0);
-  const [places, setPlaces] = useState<IPlace[]>([]);
-  const navigate = useNavigate();
-
-  function handleClick(id: number) {
-    setSelected(id);
-  }
-
-  const handleNavigate = () => {
-    navigate("/new-place");
-  };
-
-  const handleNavigateToTravels = () => {
-    navigate("/travels");
-  };
-
-  const handlePlaceClick = (place: IPlace) => {
-    const url = `/place?id=${place.id}`;
-    window.open(url, "_blank");
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<IPlace[]>(
-          `http://localhost:3001/api/places`,
-          {
-            params: {
-              typeId: selected,
-            },
-          }
-        );
-
-        setPlaces(response.data);
-      } catch (error) {
-        console.error("Erro:", error);
-      }
-    };
-
-    fetchData();
-  }, [selected]);
+  const isLoading = places.length === 0;
 
   return (
     <Container>
@@ -66,49 +25,51 @@ export const Home: React.FC<Props> = (
         p={"15px 80px"}
         borderBottom="1px"
         borderColor="gray.200"
-        justifyContent={"space-between"}
+        justifyContent={"center"}
       >
-        <HStack gap={"5px"}>
-          <HomeSVG />
-          <Heading
-            fontWeight={600}
-            fontSize={"20px"}
-            cursor={"pointer"}
-            fontFamily="'Poppins', sans-serif"
-            color={"deeppink"}
-          >
-            homebnb
-          </Heading>
-        </HStack>
+        <HStack maxWidth={"80rem"} w={"100%"} justifyContent={"space-between"}>
+          <HStack gap={"5px"}>
+            <HomeSVG />
+            <Heading
+              fontWeight={600}
+              fontSize={"20px"}
+              cursor={"pointer"}
+              fontFamily="'Poppins', sans-serif"
+              color={"deeppink"}
+            >
+              homebnb
+            </Heading>
+          </HStack>
 
-        <HStack>
-          <Box
-            display="inline-block"
-            _hover={{
-              backgroundColor: "gray.100",
-              borderRadius: "40px",
-            }}
-            p={3}
-            onClick={handleNavigate}
-          >
-            <Text fontWeight={600} cursor={"pointer"}>
-              Vou hospedar
-            </Text>
-          </Box>
+          <HStack>
+            <Box
+              display="inline-block"
+              _hover={{
+                backgroundColor: "gray.100",
+                borderRadius: "40px",
+              }}
+              p={3}
+              onClick={handleNavigate}
+            >
+              <Text fontWeight={600} cursor={"pointer"}>
+                Vou hospedar
+              </Text>
+            </Box>
 
-          <Box
-            display="inline-block"
-            _hover={{
-              backgroundColor: "gray.100",
-              borderRadius: "40px",
-            }}
-            p={3}
-            onClick={handleNavigateToTravels}
-          >
-            <Text fontWeight={600} cursor={"pointer"}>
-              Viagens
-            </Text>
-          </Box>
+            <Box
+              display="inline-block"
+              _hover={{
+                backgroundColor: "gray.100",
+                borderRadius: "40px",
+              }}
+              p={3}
+              onClick={handleNavigateToTravels}
+            >
+              <Text fontWeight={600} cursor={"pointer"}>
+                Viagens
+              </Text>
+            </Box>
+          </HStack>
         </HStack>
       </HStack>
 
@@ -134,7 +95,16 @@ export const Home: React.FC<Props> = (
           justifyContent={"center"}
           marginTop={8}
         >
-          {places.length > 0 ? ( // Verifica se existem lugares
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                height="150px"
+                width="200px"
+                borderRadius="12px"
+              />
+            ))
+          ) : places.length > 0 ? (
             places.map((item, index) => (
               <PlaceListIten
                 key={index}
@@ -145,7 +115,7 @@ export const Home: React.FC<Props> = (
           ) : (
             <Text fontSize="lg" color="gray.500">
               Não há lugares disponíveis.
-            </Text> // Mensagem quando vazio
+            </Text>
           )}
         </Box>
       </VStack>

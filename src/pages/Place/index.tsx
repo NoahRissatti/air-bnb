@@ -24,6 +24,8 @@ import {
 import { TitledIcon } from "./components/TitledIcon";
 import { IPlace } from "../../types/IPlace";
 import { typeOfPlaceData } from "../../constants";
+import { IReservation } from "../../types/IReservation";
+import Swal from "sweetalert2";
 
 export const Place: React.FC = () => {
   const navigate = useNavigate();
@@ -39,6 +41,8 @@ export const Place: React.FC = () => {
 
   const [checkin, setCheckIn] = useState<string>(formatDate(twoDaysAgo));
   const [checkOut, setCheckOut] = useState<string>(formatDate(today));
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
 
   const handleNavigate = () => {
     navigate("/new-place");
@@ -55,7 +59,13 @@ export const Place: React.FC = () => {
         const response = await axios.get<IPlace>(
           `http://localhost:3001/api/places/${placeId}`
         );
-        setPlace(response.data);
+
+        const transformedPlace = {
+          ...response.data,
+          amenities: response.data.amenities.map(Number),
+        };
+
+        setPlace(transformedPlace);
       } catch (error) {
         console.error("Erro:", error);
       }
@@ -78,6 +88,55 @@ export const Place: React.FC = () => {
     const place = typeOfPlaceData.find((item) => item.id === id);
     return place ? place.title : "Título não encontrado";
   };
+
+  async function handleMakeReservation() {
+    if (!place) return;
+    const payload: IReservation = {
+      place: {
+        ...place,
+        amenities: place?.amenities.map(Number),
+      },
+      guests: adults + children,
+      startDate: checkin,
+      endDate: checkOut,
+      price: totalPrice,
+    };
+
+    const result = await Swal.fire({
+      title: "Confirmação de Reserva",
+      text: `Deseja confirmar a reserva?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/reservations",
+          payload
+        );
+
+        Swal.fire({
+          title: "Reserva Confirmada!",
+          text: "Sua reserva foi realizada com sucesso.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
+        navigate("/");
+      } catch (error) {
+        Swal.fire({
+          title: "Erro ao reservar",
+          text: "Ocorreu um erro ao realizar sua reserva. Tente novamente mais tarde.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        console.error("Erro ao enviar dados:", error);
+      }
+    }
+  }
 
   return (
     <Container>
@@ -156,7 +215,7 @@ export const Place: React.FC = () => {
             </Text>
             <Grid templateColumns="repeat(2, 1fr)" gap={6} w="100%">
               {amenities
-                .filter((item) => place?.amenities.includes(item.id.toString()))
+                .filter((item) => place?.amenities.includes(item.id))
                 .map((card, index) => (
                   <TitledIcon key={index} title={card.title} icon={card.icon} />
                 ))}
@@ -201,7 +260,12 @@ export const Place: React.FC = () => {
               />
             </HStack>
 
-            <SelectQuantityDropbox />
+            <SelectQuantityDropbox
+              adults={adults}
+              children={children}
+              setAdults={setAdults}
+              setChildren={setChildren}
+            />
 
             <Button
               bg="deeppink"
@@ -209,6 +273,7 @@ export const Place: React.FC = () => {
               _hover={{ bg: "hotpink" }}
               size="md"
               w="100%"
+              onClick={handleMakeReservation}
             >
               Reservar
             </Button>

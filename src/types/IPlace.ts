@@ -5,7 +5,7 @@ export type IPlace = {
   guests: number;
   rooms: number;
   beds: number;
-  amenities: string[];
+  amenities: number[];
   title: string;
   description: string;
   price: string;
